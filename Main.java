@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     private static String[] key = {
-            "ADD","10001011000",
+            "ADD",  "10001011000",
             "ADDI",  "1001000100",
             "ADDIS", "1011000100",
             "ADDS",   "10101011000",
@@ -116,16 +116,30 @@ public class Main {
     }
     public static String decomp2(String x, String y)
     {
+        String ret="idek";
         //System.out.println(x +" "+y);
-        if(x =="ADD")
+        if(x.equals("ADD")||x.equals("ADDS")||x.equals("AND")||x.equals("ANDS")||x.equals("BR")
+                ||x.equals("EOR")||x.equals("LSL")||x.equals("LSR")||x.equals("ORR")
+                ||x.equals("SUB")||x.equals("SUBS")||x.equals("FADDS")||x.equals("FADDD")
+                ||x.equals("FCMPS")||x.equals("FCMPD")||x.equals("FDIVS")||x.equals("FDIVD")
+                ||x.equals("FMULS")||x.equals("FMULD")||x.equals("FSUBS")||x.equals("FSUBD")
+                ||x.equals("LDURS")||x.equals("LDURD")||x.equals("MUL")||x.equals("SDIV")
+                ||x.equals("SMULH")||x.equals("STURS")||x.equals("STURD")||x.equals("UDIV")||x.equals("UMULH")
+        )
         {
-            rtype(x,y);
+            ret =rtype(x,y);
         }
-        return "";
+        else if(x.equals("ADDI")||x.equals("ADDIS")||x.equals("ANDI")||x.equals("ANDIS")||x.equals("EORI")||x.equals("ORRI")
+                ||x.equals("SUBI")||x.equals("SUBIS"))
+        {
+            ret = itype(x,y);
+        }
+        return ret;
     }
 
     public static String rtype(String x, String y)
     {
+        String ret = "idek";
         int rm = Integer.parseInt(y.substring(0,5),2);
         int shamt = Integer.parseInt(y.substring(5,10),2);
         int rn = Integer.parseInt(y.substring(10,15),2);
@@ -135,8 +149,32 @@ public class Main {
         System.out.println("shamt "+ shamt);
         System.out.println("rn "+ rn);
         System.out.println("rd "+ rd);
+        if(x.equals("ADD")||x.equals("ADDS")||x.equals("AND")||x.equals("ANDS")||x.equals("FADDD")||x.equals("FADDDS")
+                ||x.equals("FCMPD")||x.equals("FCMPS")||x.equals("FDIVD")||x.equals("FDIVS")||x.equals("FMULD")||x.equals("FMULS")
+                ||x.equals("FSUBD")||x.equals("FSUBS")||x.equals("SDIV")||x.equals("MUL")||x.equals("SMULH")||x.equals("SUB")
+                ||x.equals("SUBS")||x.equals("UDIV")||x.equals("UMULH")
+        )
+        {
+            ret = x + " X"+rd+","+" X"+rn+", X"+ rm;
+        }
 
-        return "";
+        return ret;
+    }
+    public static String itype(String x, String y)
+    {
+        String ret = "idek";
+        int ALU = Integer.parseInt(y.substring(0,12),2);
+        int rn = Integer.parseInt(y.substring(12,17),2);
+        int rd = Integer.parseInt(y.substring(17,22),2);
+        System.out.println(x);
+        System.out.println("rn "+ rn);
+        System.out.println("alu "+ ALU);
+        System.out.println("rd "+ rd);
+        if(x.equals("ADDI")||x.equals("ADDIS")||x.equals("ANDI")||x.equals("ANDIS")||x.equals("SUBI")||x.equals("SUBIS"))
+        {
+            ret = x + " X"+rd+","+" X"+rn+", #"+ ALU;
+        }
+        return ret;
     }
 
 }
