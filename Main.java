@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Main {
-    private String[] key = {
+    private static String[] key = {
             "ADD","10001011000",
             "ADDI",  "1001000100",
             "ADDIS", "1011000100",
@@ -60,19 +60,16 @@ public class Main {
     };
     public static void main(String[] args)
     {
-        String x ="";
-        try {
-            File myObj = new File("xxx.legv8asm.machine");
-            Scanner myReader = new Scanner(myObj);
-
-                String data = myReader.nextLine();
-                System.out.println(data);
-
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+//        String x ="";
+//        try {
+//            FileInputStream fis = new FileInputStream(new File("xxx.legv8asm.machine"));
+//            int ch;
+//            while ((ch = fis.read()) != -1) {
+//                System.out.print((char) ch);
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 //       String current = "";
 //       for(int i =0;i<=x.length()/32;i++)
 //       {
@@ -83,11 +80,63 @@ public class Main {
 //           }
 //           System.out.println(i+ " "+ c);
 //           //current +=x.charAt(i);
-//       }
-      // decompiler();
+//       }//00001000000000100001
+      System.out.println(decompiler("1000101100000001000000000100001"));
     }
-    public static void decompiler()
+    public static String decompiler(String x)
     {
-        System.out.println("HHHH");
+
+        String y;
+        String out = null;
+        String lastpart = "";
+        for(int i=0;i<=x.length();i++)
+       {
+           if(out == null)
+           {
+
+           }
+           else {
+               break;
+           }
+            y = x.substring(0,i);
+
+            for(int j =1;j<key.length;j+=2)
+            {
+                if(y.equals(key[j]))
+                {
+                    out = key[j-1];
+                    lastpart = x.substring(i);
+                    //System.out.println(key[j-1]);
+                    break;
+                }
+
+            }
+        }
+        return decomp2(out,lastpart);
     }
+    public static String decomp2(String x, String y)
+    {
+        //System.out.println(x +" "+y);
+        if(x =="ADD")
+        {
+            rtype(x,y);
+        }
+        return "";
+    }
+
+    public static String rtype(String x, String y)
+    {
+        int rm = Integer.parseInt(y.substring(0,5),2);
+        int shamt = Integer.parseInt(y.substring(5,10),2);
+        int rn = Integer.parseInt(y.substring(10,15),2);
+        int rd = Integer.parseInt(y.substring(15,20),2);
+        System.out.println(x);
+        System.out.println("rm "+ rm);
+        System.out.println("shamt "+ shamt);
+        System.out.println("rn "+ rn);
+        System.out.println("rd "+ rd);
+
+        return "";
+    }
+
 }
