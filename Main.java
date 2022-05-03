@@ -81,6 +81,28 @@ public class Main {
 //           System.out.println(i+ " "+ c);
 //           //current +=x.charAt(i);
 //       }//00001000000000100001
+
+        /**
+        try 
+        {
+            File file = new File("filename.txt");
+            Scanner scnr = new Scanner(file);
+            while (scnr.hasNextLine()) 
+            {
+                String data = scnr.nextLine();
+                //System.out.println(data);
+            }
+
+            scnr.close();
+        } 
+        
+        catch (FileNotFoundException e) 
+        {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        */
+        
       System.out.println(decompiler("1000101100000001000000000100001"));
     }
     public static String decompiler(String x)
