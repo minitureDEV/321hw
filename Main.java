@@ -86,7 +86,7 @@ public class Main
 
         
     //File file = new File("xxx.legv8asm.machine");	
-    File file = new File("xxx.legv8asm.machine");
+    File file = new File("C:\\cs321\\assignment2\\321hw\\xxx.legv8asm.machine");
     ArrayList<String> compiled = new ArrayList<String>();
     ArrayList<String> decompiled = new ArrayList<String>();
 
@@ -96,10 +96,8 @@ public class Main
         BufferedInputStream scnr = new BufferedInputStream(fileInputStream);
         int curr;
 
-    
         while((curr = scnr.read()) != -1)
         {
-            /**
             String currentInstruction = "";
             int i = 0;
 
@@ -113,9 +111,9 @@ public class Main
             }while(i < 4 && ((curr = scnr.read()) != -1));
 
             compiled.add(currentInstruction);
-            **/
-
             
+
+            /**
             String instruction = "";
             String binary = Integer.toBinaryString(curr);
             String leadZero = String.format("%8s", binary).replace(' ', '0');
@@ -134,7 +132,7 @@ public class Main
             instruction += leadZero3;
             instruction += leadZero4;
             compiled.add(instruction);
-            
+            **/
         
         }
     
@@ -148,13 +146,13 @@ public class Main
     }
 
     //creates converted instructions into arraylist
-    for(int i = 0; i < 30; i++)
+    for(int i = 0; i < compiled.size(); i++)
     {
         decompiled.add(decompiler(compiled.get(i)));
     }
     
     //outputs arraylist of compiled constructions to a new file
-    File outputFileName = new File("321hw2.txt");
+    File outputFileName = new File("test.txt");
     PrintWriter output = new PrintWriter(outputFileName);
     
     for(int i = 0; i < decompiled.size(); i++)
@@ -172,6 +170,7 @@ public class Main
 
     public static String decompiler(String x)
     {
+
         String y;
         String out = null;
         String lastpart = "";
@@ -230,11 +229,11 @@ public class Main
         int shamt = Integer.parseInt(y.substring(5,10),2);
         int rn = Integer.parseInt(y.substring(10,15),2);
         int rd = Integer.parseInt(y.substring(15,20),2);
-//        System.out.println(x);
-//        System.out.println("rm "+ rm);
-//        System.out.println("shamt "+ shamt);
-//        System.out.println("rn "+ rn);
-//        System.out.println("rd "+ rd);
+        System.out.println(x);
+        System.out.println("rm "+ rm);
+        System.out.println("shamt "+ shamt);
+        System.out.println("rn "+ rn);
+        System.out.println("rd "+ rd);
         if(x.equals("ADD")||x.equals("ADDS")||x.equals("AND")||x.equals("ANDS")||x.equals("FADDD")||x.equals("FADDDS")
                 ||x.equals("FCMPD")||x.equals("FCMPS")||x.equals("FDIVD")||x.equals("FDIVS")||x.equals("FMULD")||x.equals("FMULS")
                 ||x.equals("FSUBD")||x.equals("FSUBS")||x.equals("SDIV")||x.equals("MUL")||x.equals("SMULH")||x.equals("SUB")
@@ -242,7 +241,6 @@ public class Main
         )
         {
             ret = x + " X"+rd+","+" X"+rn+", X"+ rm;
-            System.out.println(ret);
         }
 
         return ret;
@@ -253,14 +251,13 @@ public class Main
         int ALU = Integer.parseInt(y.substring(0,12),2);
         int rn = Integer.parseInt(y.substring(12,17),2);
         int rd = Integer.parseInt(y.substring(17,22),2);
-//        System.out.println(x);
-//        System.out.println("rn "+ rn);
-//        System.out.println("alu "+ ALU);
-//        System.out.println("rd "+ rd);
+        System.out.println(x);
+        System.out.println("rn "+ rn);
+        System.out.println("alu "+ ALU);
+        System.out.println("rd "+ rd);
         if(x.equals("ADDI")||x.equals("ADDIS")||x.equals("ANDI")||x.equals("ANDIS")||x.equals("SUBI")||x.equals("SUBIS"))
         {
             ret = x + " X"+rd+","+" X"+rn+", #"+ ALU;
-            System.out.println(ret);
         }
         return ret;
     }
