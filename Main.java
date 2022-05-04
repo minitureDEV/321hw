@@ -96,8 +96,10 @@ public class Main
         BufferedInputStream scnr = new BufferedInputStream(fileInputStream);
         int curr;
 
+    
         while((curr = scnr.read()) != -1)
         {
+            /**
             String currentInstruction = "";
             int i = 0;
 
@@ -111,9 +113,9 @@ public class Main
             }while(i < 4 && ((curr = scnr.read()) != -1));
 
             compiled.add(currentInstruction);
-            
+            **/
 
-            /**
+            
             String instruction = "";
             String binary = Integer.toBinaryString(curr);
             String leadZero = String.format("%8s", binary).replace(' ', '0');
@@ -132,7 +134,7 @@ public class Main
             instruction += leadZero3;
             instruction += leadZero4;
             compiled.add(instruction);
-            **/
+            
         
         }
     
@@ -146,13 +148,13 @@ public class Main
     }
 
     //creates converted instructions into arraylist
-    for(int i = 0; i < compiled.size(); i++)
+    for(int i = 0; i < 30; i++)
     {
         decompiled.add(decompiler(compiled.get(i)));
     }
     
     //outputs arraylist of compiled constructions to a new file
-    File outputFileName = new File("test.txt");
+    File outputFileName = new File("321hw2.txt");
     PrintWriter output = new PrintWriter(outputFileName);
     
     for(int i = 0; i < decompiled.size(); i++)
@@ -170,7 +172,6 @@ public class Main
 
     public static String decompiler(String x)
     {
-
         String y;
         String out = null;
         String lastpart = "";
