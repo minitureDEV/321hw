@@ -1,7 +1,9 @@
 import java.io.*;
 import java.util.Scanner;
+import java.util.ArrayList;
 
-public class Main {
+public class Main 
+{
     private static String[] key = {
             "ADD",  "10001011000",
             "ADDI",  "1001000100",
@@ -58,7 +60,7 @@ public class Main {
             "UDIV",   "10011010110",
             "UMULH", "10011011110"
     };
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {
 //        String x ="";
 //        try {
@@ -82,29 +84,91 @@ public class Main {
 //           //current +=x.charAt(i);
 //       }//00001000000000100001
 
-        /**
-        try 
-        {
-            File file = new File("filename.txt");
-            Scanner scnr = new Scanner(file);
-            while (scnr.hasNextLine()) 
-            {
-                String data = scnr.nextLine();
-                //System.out.println(data);
-            }
+        
+    //File file = new File("xxx.legv8asm.machine");	
+    File file = new File("C:\\cs321\\assignment2\\321hw\\xxx.legv8asm.machine");
+    ArrayList<String> compiled = new ArrayList<String>();
+    ArrayList<String> decompiled = new ArrayList<String>();
 
-            scnr.close();
-        } 
-        
-        catch (FileNotFoundException e) 
+    try 
+    {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        BufferedInputStream scnr = new BufferedInputStream(fileInputStream);
+        int curr;
+
+        while((curr = scnr.read()) != -1)
         {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        */
+            
+            String currentInstruction = "";
+            int i = 0;
+
+            do
+            {
+                String currentBinary = Integer.toBinaryString(curr);
+                String currentEight = String.format("%8s", currentBinary).replace(' ', '0');
+                currentInstruction += currentEight;
+                i++;
+
+            }while(i < 4 && ((curr = scnr.read()) != -1));
+
+            compiled.add(currentInstruction);
+            
+
+            /**
+            String instruction = "";
+            String binary = Integer.toBinaryString(curr);
+            String leadZero = String.format("%8s", binary).replace(' ', '0');
+            curr = scnr.read();
+            String binary2 = Integer.toBinaryString(curr);
+            String leadZero2 = String.format("%8s", binary2).replace(' ', '0');
+            curr = scnr.read();
+            String binary3 = Integer.toBinaryString(curr);
+            String leadZero3 = String.format("%8s", binary3).replace(' ', '0');
+            curr = scnr.read();
+            String binary4 = Integer.toBinaryString(curr);
+            String leadZero4 = String.format("%8s", binary4).replace(' ', '0');
+            //instruction = leadZero + leadZero1 + leadZero2 + leadZero3 + leadZero4;
+            instruction += leadZero;
+            instruction += leadZero2;
+            instruction += leadZero3;
+            instruction += leadZero4;
+            compiled.add(instruction);
+            **/
         
-      System.out.println(decompiler("1000101100000001000000000100001"));
+        }
+    
+        scnr.close();
+    } 
+
+    catch (FileNotFoundException e) 
+    {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
     }
+
+    //creates converted instructions into arraylist
+    for(int i = 0; i < compiled.size(); i++)
+    {
+        decompiled.add(decompiler(compiled.get(i)));
+    }
+    
+    //outputs arraylist of compiled constructions to a new file
+    File outputFileName = new File("test.txt");
+    PrintWriter output = new PrintWriter(outputFileName);
+    
+    for(int i = 0; i < compiled.size(); i++)
+    {
+        String line = compiled.get(i).toString();
+        output.println(line);
+    }
+      
+    output.close();	
+    
+    //System.out.println(decompiler("1000101100000001000000000100001"));
+    //System.out.println(decompiler(data));
+}
+
+
     public static String decompiler(String x)
     {
 
