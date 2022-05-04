@@ -98,7 +98,6 @@ public class Main
 
         while((curr = scnr.read()) != -1)
         {
-            
             String currentInstruction = "";
             int i = 0;
 
@@ -156,9 +155,9 @@ public class Main
     File outputFileName = new File("test.txt");
     PrintWriter output = new PrintWriter(outputFileName);
     
-    for(int i = 0; i < compiled.size(); i++)
+    for(int i = 0; i < decompiled.size(); i++)
     {
-        String line = compiled.get(i).toString();
+        String line = decompiled.get(i).toString();
         output.println(line);
     }
       
