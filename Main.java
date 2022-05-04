@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Main 
 {
+    private static int curct=0;
     private static String[] key = {
             "ADD",  "10001011000",
             "ADDI",  "1001000100",
@@ -149,8 +150,9 @@ public class Main
     //creates converted instructions into arraylist
     for(int i = 0; i < compiled.size(); i++)
     {
-       // System.out.println(compiled.get(i));
+        //System.out.println(compiled.get(i));
         decompiled.add(decompiler(compiled.get(i)));
+        curct++;
     }
     
     //outputs arraylist of compiled constructions to a new file
@@ -160,7 +162,7 @@ public class Main
     for(int i = 0; i < decompiled.size(); i++)
     {
         String line = decompiled.get(i).toString();
-        //output.println(line);
+        output.println(line);
     }
       
     output.close();	
@@ -229,6 +231,10 @@ public class Main
         {
             ret = branchcondtype(x,y);
         }
+        else if(x.equals("B"))
+        {
+            ret = b(x,y);
+        }
         return ret;
     }
 
@@ -286,7 +292,7 @@ public class Main
     public static String branchcondtype(String x, String y)
     {
         String ret = "idek";
-        int condbr = Integer.parseInt(y.substring(0,19),2);
+        int condbr = (byte)Integer.parseInt(y.substring(0,19),2);
         int rt = Integer.parseInt(y.substring(19,24),2);
         String cd = "";
 
@@ -323,8 +329,23 @@ public class Main
 
         }
 
+        condbr = condbr+=curct;
 
+        //ret ="B."+cd+" branch"+condbr+ "current branch: "+curct;
         ret ="B."+cd+" branch"+condbr;
+        System.out.println(ret);
+
+        return ret;
+    }
+    public static String b(String x, String y)
+    {
+        String ret = "idek";
+        int condbr = (byte)Integer.parseInt(y.substring(0,26),2);
+
+        condbr = condbr+=curct;
+
+        //ret = "B " + " branch"+condbr + "current branch: "+curct;
+        ret = "B " + " branch"+condbr;
         System.out.println(ret);
 
         return ret;
