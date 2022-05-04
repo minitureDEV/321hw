@@ -15,6 +15,7 @@ public class Main
             "ANDS",     "1110101000",
             "B",         "000101",
             "BL",        "100101",
+            "BCon", "01010100",
             "BR",      "11010110000",
             "CBNZ",    "10110101",
             "CBZ",     "10110100",
@@ -148,7 +149,7 @@ public class Main
     //creates converted instructions into arraylist
     for(int i = 0; i < compiled.size(); i++)
     {
-        System.out.println(compiled.get(i));
+       // System.out.println(compiled.get(i));
         decompiled.add(decompiler(compiled.get(i)));
     }
     
@@ -159,7 +160,7 @@ public class Main
     for(int i = 0; i < decompiled.size(); i++)
     {
         String line = decompiled.get(i).toString();
-        output.println(line);
+        //output.println(line);
     }
       
     output.close();	
@@ -210,7 +211,7 @@ public class Main
                 ||x.equals("FCMPS")||x.equals("FCMPD")||x.equals("FDIVS")||x.equals("FDIVD")
                 ||x.equals("FMULS")||x.equals("FMULD")||x.equals("FSUBS")||x.equals("FSUBD")
                 ||x.equals("LDURS")||x.equals("LDURD")||x.equals("MUL")||x.equals("SDIV")
-                ||x.equals("SMULH")||x.equals("STURS")||x.equals("STURD")||x.equals("UDIV")||x.equals("UMULH")
+                ||x.equals("SMULH")||x.equals("STURS")||x.equals("STURD")||x.equals("UDIV")||x.equals("UMULH")||x.equals("LSL")||x.equals("LSR")
         )
         {
             ret =rtype(x,y);
@@ -219,6 +220,14 @@ public class Main
                 ||x.equals("SUBI")||x.equals("SUBIS"))
         {
             ret = itype(x,y);
+        }
+        else if(x.equals("STUR")||x.equals("LDUR"))
+        {
+            ret = dtype(x,y);
+        }
+        else if(x.equals("BCon"))
+        {
+            ret = branchcondtype(x,y);
         }
         return ret;
     }
@@ -230,11 +239,6 @@ public class Main
         int shamt = Integer.parseInt(y.substring(5,11),2);
         int rn = Integer.parseInt(y.substring(11,16),2);
         int rd = Integer.parseInt(y.substring(16,21),2);
-//        System.out.println(x);
-//        System.out.println("rm "+ rm);
-//        System.out.println("shamt "+ shamt);
-//        System.out.println("rn "+ rn);
-//        System.out.println("rd "+ rd);
         if(x.equals("ADD")||x.equals("ADDS")||x.equals("AND")||x.equals("ANDS")||x.equals("FADDD")||x.equals("FADDDS")
                 ||x.equals("FCMPD")||x.equals("FCMPS")||x.equals("FDIVD")||x.equals("FDIVS")||x.equals("FMULD")||x.equals("FMULS")
                 ||x.equals("FSUBD")||x.equals("FSUBS")||x.equals("SDIV")||x.equals("MUL")||x.equals("SMULH")||x.equals("SUB")
@@ -242,9 +246,13 @@ public class Main
         )
         {
             ret = x + " X"+rd+","+" X"+rn+", X"+ rm;
-            System.out.println(ret);
-        }
 
+        }
+        else if(x.equals("LSL")||x.equals("LSR"))
+        {
+            ret = x + " X"+rd+","+" X"+rn+", #"+ shamt;
+        }
+        System.out.println(ret);
         return ret;
     }
     public static String itype(String x, String y)
@@ -253,23 +261,72 @@ public class Main
         int ALU = Integer.parseInt(y.substring(0,12),2);
         int rn = Integer.parseInt(y.substring(12,17),2);
         int rd = Integer.parseInt(y.substring(17,22),2);
-//        System.out.println(x);
-//        System.out.println("rn "+ rn);
-//        System.out.println("alu "+ ALU);
-//        System.out.println("rd "+ rd);
         if(x.equals("ADDI")||x.equals("ADDIS")||x.equals("ANDI")||x.equals("ANDIS")||x.equals("SUBI")||x.equals("SUBIS"))
         {
             ret = x + " X"+rd+","+" X"+rn+", #"+ ALU;
-            System.out.println(ret);
+
         }
+        System.out.println(ret);
         return ret;
     }
     public static String dtype(String x, String y)
     {
-        int ALU = Integer.parseInt(y.substring(0,12),2);
-        int rn = Integer.parseInt(y.substring(12,17),2);
-        int rd = Integer.parseInt(y.substring(17,22),2);
-        return "";
+        String ret = "idek";
+        int DTadd = Integer.parseInt(y.substring(0,9),2);
+        int op = Integer.parseInt(y.substring(9,11),2);
+        int rn = Integer.parseInt(y.substring(11,16),2);
+        int rt = Integer.parseInt(y.substring(16,21),2);
+        if(x.equals("STUR")||x.equals("LDUR"))
+        {
+            ret = x + " X"+rt+","+" [X"+rn+", #"+ DTadd+"]";
+            System.out.println(ret);
+        }
+        return ret;
     }
+    public static String branchcondtype(String x, String y)
+    {
+        String ret = "idek";
+        int condbr = Integer.parseInt(y.substring(0,19),2);
+        int rt = Integer.parseInt(y.substring(19,24),2);
+        String cd = "";
 
+        switch (rt) {
+            case 0:  cd = "EQ";
+                break;
+            case 1:  cd = "NE";
+                break;
+            case 2:  cd = "HS";
+                break;
+            case 3:  cd = "LO";
+                break;
+            case 4:  cd = "MI";
+                break;
+            case 5:  cd = "PL";
+                break;
+            case 6:  cd = "VS";
+                break;
+            case 7:  cd = "VC";
+                break;
+            case 8:  cd = "HI";
+                break;
+            case 9: cd = "LS";
+                break;
+            case 10: cd = "GE";
+                break;
+            case 11: cd = "LT";
+                break;
+            case 12: cd = "GT";
+                break;
+
+            default: cd = "LE";
+                break;
+
+        }
+
+
+        ret ="B."+cd+" branch"+condbr;
+        System.out.println(ret);
+
+        return ret;
+    }
 }
