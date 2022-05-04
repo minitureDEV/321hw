@@ -148,6 +148,7 @@ public class Main
     //creates converted instructions into arraylist
     for(int i = 0; i < compiled.size(); i++)
     {
+        System.out.println(compiled.get(i));
         decompiled.add(decompiler(compiled.get(i)));
     }
     
@@ -226,9 +227,9 @@ public class Main
     {
         String ret = "idek";
         int rm = Integer.parseInt(y.substring(0,5),2);
-        int shamt = Integer.parseInt(y.substring(5,10),2);
-        int rn = Integer.parseInt(y.substring(10,15),2);
-        int rd = Integer.parseInt(y.substring(15,20),2);
+        int shamt = Integer.parseInt(y.substring(5,11),2);
+        int rn = Integer.parseInt(y.substring(11,16),2);
+        int rd = Integer.parseInt(y.substring(16,21),2);
 //        System.out.println(x);
 //        System.out.println("rm "+ rm);
 //        System.out.println("shamt "+ shamt);
@@ -262,6 +263,13 @@ public class Main
             System.out.println(ret);
         }
         return ret;
+    }
+    public static String dtype(String x, String y)
+    {
+        int ALU = Integer.parseInt(y.substring(0,12),2);
+        int rn = Integer.parseInt(y.substring(12,17),2);
+        int rd = Integer.parseInt(y.substring(17,22),2);
+        return "";
     }
 
 }
