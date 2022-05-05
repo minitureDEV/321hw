@@ -146,14 +146,14 @@ public class Main
     }
 
     //creates converted instructions into arraylist
-    for(int i = 0; i < compiled.size(); i++)
+    for(int i = 0; i < 30; i++)
     {
         System.out.println(compiled.get(i));
         decompiled.add(decompiler(compiled.get(i)));
     }
     
     //outputs arraylist of compiled constructions to a new file
-    File outputFileName = new File("test.txt");
+    File outputFileName = new File("321hw2bruh.txt");
     PrintWriter output = new PrintWriter(outputFileName);
     
     for(int i = 0; i < decompiled.size(); i++)
@@ -162,6 +162,7 @@ public class Main
         output.println(line);
     }
       
+    System.out.println("finished");
     output.close();	
     
     //System.out.println(decompiler("1000101100000001000000000100001"));
