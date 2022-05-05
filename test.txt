@@ -1,46 +1,92 @@
+branch0:
 ADDI X19, X31, #0
+branch1:
 ADDI X20, X31, #100
+branch2:
 STUR X20, [X19, #0]
+branch3:
 ADDI X20, X31, #90
+branch4:
 STUR X20, [X19, #8]
+branch5:
 ADDI X20, X31, #80
+branch6:
 STUR X20, [X19, #16]
+branch7:
 ADDI X20, X31, #70
+branch8:
 STUR X20, [X19, #24]
+branch9:
 ADDI X20, X31, #60
+branch10:
 STUR X20, [X19, #32]
+branch11:
 ADDI X20, X31, #50
+branch12:
 STUR X20, [X19, #40]
+branch13:
 ADDI X20, X31, #40
+branch14:
 STUR X20, [X19, #48]
+branch15:
 ADDI X20, X31, #30
+branch16:
 STUR X20, [X19, #56]
+branch17:
 ADDI X20, X31, #20
+branch18:
 STUR X20, [X19, #64]
+branch19:
 ADDI X20, X31, #10
+branch20:
 STUR X20, [X19, #72]
+branch21:
 ADDI X9, X31, #1
+branch22:
 SUBI X10, X9, #10
+branch23:
 CBZ branch45
+branch24:
 LSL X10, X9, #3
+branch25:
 ADD X10, X10, X19
+branch26:
 LDUR X11, [X10, #0]
+branch27:
 LDUR X12, [X19, #0]
+branch28:
 ADD X10, X31, X19
+branch29:
 SUBS X31, X12, X11
+branch30:
 B.GE branch34
+branch31:
 ADDI X10, X10, #8
+branch32:
 LDUR X12, [X10, #0]
+branch33:
 B  branch29
+branch34:
 LSL X13, X9, #3
+branch35:
 ADD X13, X13, X19
+branch36:
 SUBS X31, X10, X13
+branch37:
 B.GE branch42
+branch38:
 SUBI X13, X13, #8
+branch39:
 LDUR X14, [X13, #0]
+branch40:
 STUR X14, [X13, #8]
+branch41:
 B  branch36
+branch42:
 STUR X11, [X10, #0]
+branch43:
 ADDI X9, X9, #1
+branch44:
 B  branch22
+branch45:
 DUMP

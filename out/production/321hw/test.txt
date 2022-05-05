@@ -43,4 +43,4 @@ B  branch36
 STUR X11, [X10, #0]
 ADDI X9, X9, #1
 B  branch22
-idek
+DUMP

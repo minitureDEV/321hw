@@ -158,11 +158,13 @@ public class Main
     //outputs arraylist of compiled constructions to a new file
     File outputFileName = new File("test.txt");
     PrintWriter output = new PrintWriter(outputFileName);
-    
+    curct=0;
     for(int i = 0; i < decompiled.size(); i++)
     {
         String line = decompiled.get(i).toString();
+        output.println("branch"+curct+":");
         output.println(line);
+        curct++;
     }
       
     output.close();	
@@ -214,16 +216,20 @@ public class Main
                 ||x.equals("FMULS")||x.equals("FMULD")||x.equals("FSUBS")||x.equals("FSUBD")
                 ||x.equals("LDURS")||x.equals("LDURD")||x.equals("MUL")||x.equals("SDIV")
                 ||x.equals("SMULH")||x.equals("STURS")||x.equals("STURD")||x.equals("UDIV")||x.equals("UMULH")||x.equals("LSL")||x.equals("LSR")
+                ||x.equals("BR")||x.equals("EOR")||x.equals("ORR")||x.equals("PRNT")
         )
         {
             ret =rtype(x,y);
         }
         else if(x.equals("ADDI")||x.equals("ADDIS")||x.equals("ANDI")||x.equals("ANDIS")||x.equals("EORI")||x.equals("ORRI")
-                ||x.equals("SUBI")||x.equals("SUBIS"))
+                ||x.equals("SUBI")||x.equals("SUBIS")||x.equals("EORI")
+        )
         {
             ret = itype(x,y);
         }
-        else if(x.equals("STUR")||x.equals("LDUR"))
+        else if(x.equals("STUR")||x.equals("LDUR")||x.equals("LDURB")||x.equals("LDURH")||x.equals("LDURSW")
+        ||x.equals("STURB")||x.equals("STURH")
+        )
         {
             ret = dtype(x,y);
         }
@@ -231,7 +237,7 @@ public class Main
         {
             ret = branchcondtype(x,y);
         }
-        else if(x.equals("B"))
+        else if(x.equals("B")||x.equals("BL"))
         {
             ret = b(x,y);
         }
@@ -256,7 +262,7 @@ public class Main
         if(x.equals("ADD")||x.equals("ADDS")||x.equals("AND")||x.equals("ANDS")||x.equals("FADDD")||x.equals("FADDDS")
                 ||x.equals("FCMPD")||x.equals("FCMPS")||x.equals("FDIVD")||x.equals("FDIVS")||x.equals("FMULD")||x.equals("FMULS")
                 ||x.equals("FSUBD")||x.equals("FSUBS")||x.equals("SDIV")||x.equals("MUL")||x.equals("SMULH")||x.equals("SUB")
-                ||x.equals("SUBS")||x.equals("UDIV")||x.equals("UMULH")
+                ||x.equals("SUBS")||x.equals("UDIV")||x.equals("UMULH")||x.equals("EOR")||x.equals("ORR")
         )
         {
             ret = x + " X"+rd+","+" X"+rn+", X"+ rm;
@@ -265,6 +271,14 @@ public class Main
         else if(x.equals("LSL")||x.equals("LSR"))
         {
             ret = x + " X"+rd+","+" X"+rn+", #"+ shamt;
+        }
+        else if(x.equals("BR"))
+        {
+            ret = x + " X"+rn;
+        }
+        else if(x.equals("PRNT"))
+        {
+            ret = x + " X"+rd;
         }
 
         System.out.println(ret);
@@ -276,7 +290,8 @@ public class Main
         int ALU = Integer.parseInt(y.substring(0,12),2);
         int rn = Integer.parseInt(y.substring(12,17),2);
         int rd = Integer.parseInt(y.substring(17,22),2);
-        if(x.equals("ADDI")||x.equals("ADDIS")||x.equals("ANDI")||x.equals("ANDIS")||x.equals("SUBI")||x.equals("SUBIS"))
+        if(x.equals("ADDI")||x.equals("ADDIS")||x.equals("ANDI")||x.equals("ANDIS")||x.equals("SUBI")||x.equals("SUBIS")||x.equals("EORI")
+                ||x.equals("ORRI"))
         {
             ret = x + " X"+rd+","+" X"+rn+", #"+ ALU;
 
@@ -291,7 +306,8 @@ public class Main
         int op = Integer.parseInt(y.substring(9,11),2);
         int rn = Integer.parseInt(y.substring(11,16),2);
         int rt = Integer.parseInt(y.substring(16,21),2);
-        if(x.equals("STUR")||x.equals("LDUR"))
+        if(x.equals("STUR")||x.equals("LDUR")||x.equals("LDURB")||x.equals("LDURH")||x.equals("LDURSW")||x.equals("STURB")
+                ||x.equals("STURH"))
         {
             ret = x + " X"+rt+","+" [X"+rn+", #"+ DTadd+"]";
             System.out.println(ret);
@@ -354,7 +370,7 @@ public class Main
         condbr = condbr+=curct;
 
         //ret = "B " + " branch"+condbr + "current branch: "+curct;
-        ret = "B " + " branch"+condbr;
+        ret = x + " branch"+condbr;
         System.out.println(ret);
 
         return ret;
