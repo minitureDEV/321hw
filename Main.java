@@ -235,6 +235,14 @@ public class Main
         {
             ret = b(x,y);
         }
+        else if(x.equals("CBZ")||x.equals("CBNZ"))
+        {
+            ret = cb(x,y);
+        }
+        else if (x.equals("DUMP")||x.equals("HALT")||x.equals("PRNL"))
+        {
+            ret = x;
+        }
         return ret;
     }
 
@@ -258,6 +266,7 @@ public class Main
         {
             ret = x + " X"+rd+","+" X"+rn+", #"+ shamt;
         }
+
         System.out.println(ret);
         return ret;
     }
@@ -346,6 +355,18 @@ public class Main
 
         //ret = "B " + " branch"+condbr + "current branch: "+curct;
         ret = "B " + " branch"+condbr;
+        System.out.println(ret);
+
+        return ret;
+    }
+    public static String cb(String x, String y)
+    {
+        String ret = "idek";
+        int condbr = (byte)Integer.parseInt(y.substring(0,19),2);
+        int rt = Integer.parseInt(y.substring(19,24),2);
+        condbr = condbr+=curct;
+
+        ret = x + " branch"+condbr;
         System.out.println(ret);
 
         return ret;

@@ -21,7 +21,7 @@ ADDI X20, X31, #10
 STUR X20, [X19, #72]
 ADDI X9, X31, #1
 SUBI X10, X9, #10
-idek
+CBZ branch45
 LSL X10, X9, #3
 ADD X10, X10, X19
 LDUR X11, [X10, #0]
@@ -43,4 +43,4 @@ B  branch36
 STUR X11, [X10, #0]
 ADDI X9, X9, #1
 B  branch22
-idek
+DUMP
